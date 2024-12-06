@@ -25,8 +25,8 @@ public class ClassMetaInfo extends ClassVisitor {
 
     @Override
     public MethodVisitor visitMethod(int access, String name, String descriptor, String signature, String[] exceptions) {
-        counts.put(name, counts.getOrDefault(name, 0) + 1);
         if ((access & Opcodes.ACC_NATIVE) != 0) {
+            counts.put(name, counts.getOrDefault(name, 0) + 1);
             this.methods.add(NativeMethod.of(access, name, descriptor));
         }
         return null;

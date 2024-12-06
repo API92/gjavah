@@ -32,7 +32,7 @@ public final class Constant {
     private Constant(String name, Object value) {
         this.name = name;
         this.value = value;
-        this.mangledName = mangleName(name);
+        this.mangledName = mangleName(name, false);
     }
 
     @Override
@@ -73,7 +73,7 @@ public final class Constant {
             return value + "f";
         }
         if (value instanceof Long) {
-            return value + "i64";
+            return value + "LL";
         }
         if (value instanceof Character) {
             return ((int) (char) value) + "L";

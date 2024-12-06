@@ -46,17 +46,21 @@ public final class Utils {
         }
     });
 
-    public static String mangleName(String name) {
+    public static String mangleName(String name, boolean isNativeMethod) {
         StringBuilder builder = new StringBuilder(name.length() * 2);
         int len = name.length();
         for (int i = 0; i < len; i++) {
             char ch = name.charAt(i);
-            if (ch == '.') {
+            if (ch == '.' || ch == '/') {
                 builder.append('_');
             } else if (ch == '$') {
                 builder.append("__");
             } else if (ch == '_') {
-                builder.append("_1");
+                if (isNativeMethod) {
+                    builder.append("_1");
+                } else {
+                    builder.append(ch);
+                }
             } else if (ch == ';') {
                 builder.append("_2");
             } else if (ch == '[') {

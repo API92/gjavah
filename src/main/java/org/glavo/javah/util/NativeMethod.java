@@ -46,8 +46,8 @@ public final class NativeMethod {
         this.access = access;
         this.name = name;
         this.type = type;
-        this.mangledName = mangleName(name);
-        this.longMangledName = mangledName + "__" + mangleName(arguments);
+        this.mangledName = mangleName(name, true);
+        this.longMangledName = mangledName + "__" + mangleName(arguments, true);
     }
 
     @Override

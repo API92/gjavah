@@ -42,7 +42,7 @@ public final class ClassName {
         this.moduleName = moduleName;
         this.className = className;
         this.simpleName = className.substring(className.lastIndexOf('.') + 1);
-        this.mangledName = mangleName(className);
+        this.mangledName = mangleName(className, false);
     }
 
     @Override
