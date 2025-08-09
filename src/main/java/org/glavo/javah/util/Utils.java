@@ -54,7 +54,7 @@ public final class Utils {
             if (ch == '.' || ch == '/') {
                 builder.append('_');
             } else if (ch == '$') {
-                builder.append("__");
+                builder.append("_00024");
             } else if (ch == '_') {
                 if (isNativeMethod) {
                     builder.append("_1");
