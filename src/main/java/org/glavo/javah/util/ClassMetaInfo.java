@@ -10,8 +10,8 @@ public class ClassMetaInfo extends ClassVisitor {
     public final List<NativeMethod> methods = new LinkedList<>();
     public final Map<String, Integer> counts = new HashMap<>();
 
-    ClassName superClassName;
-    ClassName name;
+    public ClassName superClassName;
+    public ClassName name;
 
     public ClassMetaInfo() {
         super(Opcodes.ASM7);

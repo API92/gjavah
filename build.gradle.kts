@@ -21,6 +21,13 @@ tasks.jar {
             "Main-Class" to javahMainClassName,
             "Class-Path" to configurations.runtimeClasspath.get().files.joinToString(" ") { it.name }
     ))
+
+    val dependencies = configurations
+        .runtimeClasspath
+        .get()
+        .map(::zipTree) // OR .map { zipTree(it) }
+    from(dependencies)
+    duplicatesStrategy = DuplicatesStrategy.WARN
 }
 
 repositories {
@@ -29,9 +36,10 @@ repositories {
 
 dependencies {
     // https://mvnrepository.com/artifact/org.ow2.asm/asm
-    implementation("org.ow2.asm:asm:9.1")
+    implementation("org.ow2.asm:asm:9.8")
 
     testImplementation("org.junit.jupiter:junit-jupiter:5.5.2")
+    testRuntimeOnly("org.junit.platform:junit-platform-launcher:1.5.2")
 }
 
 tasks.withType<JavaCompile> {
@@ -39,7 +47,7 @@ tasks.withType<JavaCompile> {
     options.release.set(9)
 }
 
-val genDir = buildDir.resolve("src-gen")
+val genDir = layout.buildDirectory.get().asFile.resolve("src-gen")
 
 sourceSets {
     main {
@@ -62,7 +70,7 @@ tasks.compileJava {
     }
 
     doLast {
-        val tree = fileTree(destinationDir)
+        val tree = fileTree(destinationDirectory.get().asFile)
         tree.include("**/*.class")
         tree.exclude("module-info.class")
         tree.forEach {
@@ -77,12 +85,16 @@ tasks.compileJava {
 
 tasks.create<Copy>("copyDependencies") {
     from(configurations.runtimeClasspath)
-    into("$buildDir/libs")
+    into("${layout.buildDirectory.get().asFile}/libs")
 }
 
 java {
     withSourcesJar()
     // withJavadocJar()
+}
+
+tasks.withType<Jar> {
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
 }
 
 tasks.withType<Javadoc>().configureEach {
