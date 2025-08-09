@@ -120,7 +120,7 @@ public class JNIGenerator {
                     "Java_" + name.mangledName() + "_" + (meta.isOverloadMethod(method) ? method.longMangledName() : method.mangledName());
 
             out.println("/*");
-            out.println(" * Class:     " + name.mangledName());
+            out.println(" * Class:     " + name.className());
             out.println(" * Method:    " + method.name());
             out.println(" * Signature: " + escape(method.type().toString()));
             out.println(" */");
